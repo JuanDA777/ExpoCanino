@@ -11,7 +11,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -37,20 +36,24 @@ public class SvPerro extends HttpServlet {
         }
         return null; // Retorna null si no se encuentra el perro
     }
+    
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         String nombre = request.getParameter("nombre");
+        System.out.println("Este es el nombre a buscar: " + nombre);
         Perro perro = buscarPerroPorNombre(nombre); // Implementa la lógica para buscar el perro en tu lista de perros
         if (perro != null) {
             // Genera la respuesta HTML con los detalles del perro
-            String perroHtml = "<h2>Nombre: " + perro.getNombre() + "</h2>"
+            String perroHtml = 
+                    "<h3>" + perro.getNombre() + "</h3>"
                     + "<p>Raza: " + perro.getRaza() + "</p>"
                     + "<p>Puntos: " + perro.getPuntos() + "</p>"
-                    + "<p>Edad (meses): " + perro.getEdad() + "</p>"
-                    + "<img src='imagenes/" + perro.getImagen() + "' alt='" + perro.getNombre() + "' width='100%'/>";
+                    + "<p>Edad: " + perro.getEdad() + "</p>"
+                    + "<img src='imagenes/" + perro.getImagen() + "' alt='" + perro.getNombre() + "' width='100%'/>" 
+                    +"<a href=\"index.jsp\">Volver a inicio</a>";
             response.setContentType("text/html");
             response.getWriter().write(perroHtml);
         } else {
@@ -92,10 +95,15 @@ public class SvPerro extends HttpServlet {
 
         // Obtener los parámetros del formulario
         String nombre = request.getParameter("nombre");
+        System.out.println("Nombre agregado: " + nombre);
         String raza = request.getParameter("raza");
+        System.out.println("raza agregada: " + raza);
         String imagen = fileName;
+        System.out.println("Nombre imagen agregada: " + imagen);
         String puntosStr = request.getParameter("puntos");
+        System.out.println("puntos agregados: " + puntosStr);
         String edadStr = request.getParameter("edad");
+        System.out.println("edad agregada: " + edadStr);
 
         // Try n Catch para los datos además de un casteo para puntos y edad
         try {
