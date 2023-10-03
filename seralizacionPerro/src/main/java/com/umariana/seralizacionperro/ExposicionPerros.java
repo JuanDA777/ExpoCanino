@@ -51,29 +51,62 @@ public class ExposicionPerros {
         }
         return darPerros;
     }
-    public static void eliminarPerro(String nombre){
-        Perro perroAEliminar = null;
-
-        //Busca al perro dentro del array existente
-        for (Perro perro : darPerros) {
-            if (perro.getNombre().equals(nombre)) {
-                perroAEliminar = perro;
-                break;
-            }
-        }
-
-        //Si se encuentra al Perro se lo elimina del array
-        if (perroAEliminar != null) {
-            darPerros.remove(perroAEliminar);
-        }
-    }
+    
+      //Metodo para buscar un perro por nombre de lista
     public static Perro buscarPerroPorNombre(String nombre) {
+        /*for (Perro perro : listarPerros) {
+                    System.out.println("Nombre: " + perro.getNombre() + ", Puntos: " + perro.getPuntos());
+                }*/
         for (Perro perro : darPerros) {
             if (perro.getNombre().equals(nombre)) {
+                //System.out.println("retorna perro");
                 return perro; // Retorna  el perro si se encuentra
+                
             }
         }
         return null; // Retorna null si no se encuentra el perro
+    }
+    
+     public static void EliminarPerro(String nombre,ServletContext context) throws IOException  {
+     
+    
+
+        Perro perro = buscarPerroPorNombre(nombre);
+        
+        if (!perro.getNombre().equals("null")) {
+            darPerros.remove(perro);
+            
+            eliminarContenidoArchivo(context);
+            guardarPerro(darPerros,context);
+
+            
+        }
+        else{
+            System.out.println("perro no se encuentra para eliminar ");
+        }
+    }
+
+    public static void eliminarContenidoArchivo(ServletContext context) throws IOException {
+
+        
+        String relativePath = "/data/datosPerro.txt";
+        String absPath = context.getRealPath(relativePath);
+        File archivo = new File(absPath);
+        
+        try {
+            
+            
+            FileOutputStream cargar = new FileOutputStream(archivo);
+            ObjectOutputStream caragado = new ObjectOutputStream(cargar);
+            caragado.writeObject("");
+            caragado.close();
+            
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Error al guardar los datos de perro: " + e.getMessage());
+        }
+
     }
     
 }

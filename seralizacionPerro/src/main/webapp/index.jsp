@@ -1,4 +1,5 @@
 
+<%@page import="java.io.File"%>
 <%@page import="com.umariana.seralizacionperro.ExposicionPerros"%>
 <%@page import="com.umariana.seralizacionperro.Perro"%>
 <%@page import="java.util.ArrayList"%>
@@ -9,9 +10,14 @@
 <%@include file= "templates/header.jsp" %>
 
 
+<!-- Empleamos una NavBar de Bootstrap para evitar interferencias de la imagen -->
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="imagenes/banner.jpeg" class="img-fluid max-height-100" alt="Banner">    
+          </a>
+</nav>
 <div class="container p-4"> <!-- clase contenedora -->
     <div class="row">
-        <img src="imagenes/logo.jpg" class="img-fluid max-height-100" alt="Banner">  
         <div class="col-md-4">  <!-- clase division por 4 columnas -->
             <div class="card card-body"> 
                 <!-- tarjeta de trabajo -->
@@ -55,7 +61,8 @@
                         <label class="input-group-text" for="edad">Edad:</label>
                         <input type="text" name="edad"  class="form-control"   >
                     </div>
-                    <input type="submit" value="Agregar perro" class ="form-control"/>
+                    <!-- Boton para agregar perros --> 
+                    <input type="submit" value="Agregar perro" class="text-bg-success " class ="form-control"</>
                 </form><br>
 
 
@@ -66,15 +73,6 @@
 
 
         <div class="col-md-8">
-            <nav class="navbar navbar-dark bg-dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand">Buscar por nombre:</a>
-                    <form class="d-flex" action="SvPerro" method="get">
-                        <input class="form-control me-2" type="search" name="nombre" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Buscar</button>
-                    </form>
-                </div>
-            </nav>
             <table class="table table-bordered table-dark">
                 <thead>
                     <tr>
@@ -88,6 +86,14 @@
                 </thead>
                 <tbody>
                     <%
+                        
+                         String relativePath = getServletContext().getRealPath("/data");
+                                String archivoA="datosPerro.txt";
+
+                                File data= new File(relativePath);
+                                File archivo=new File(data+"/"+archivoA);
+                                data.mkdir();
+                                archivo.createNewFile();
                         // Obtener array list de la solicitud utilizando el método cargarPerros
                         ServletContext context = request.getServletContext();
                         ArrayList<Perro> darPerros = ExposicionPerros.cargarPerros(context);
@@ -105,8 +111,8 @@
                         <td>
                             <!-- Agrega íconos FontAwesome para vista, editar y borrar -->
                             <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-nombre="<%= perro.getNombre()%>"><i class="fas fa-eye"></i></a> <!-- Icono para vista -->
-                            <i class="fas fa-pencil-alt"></i> <!-- Icono para editar -->
-                            <a href="#" onclick="eliminarPerro('<%= perro.getNombre()%>');" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>
+                            <a ref="#" class="btn btn-primary" data-elimniar="<%= perro.getNombre()%>" id="eliminar"><i class="fas fa-trash-alt"></i>  </a> <!-- Icono para editar -->
+                            <i class="fas fa-pencil-alt" ></i><!-- Icono para borrar -->
 
                         </td>
 
@@ -140,7 +146,8 @@
         </div>
     </div>
 </div>
-
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="script/scripts.js"> </script>
 <script>
     // funcion para mostrar los datos en la ventana modal
     $('#exampleModal').on('show.bs.modal', function (event) {
