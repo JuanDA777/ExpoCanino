@@ -1,6 +1,8 @@
 package com.umariana.seralizacionperro;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.servlet.ServletContext;
 
 public class ExposicionPerros {
@@ -108,6 +110,44 @@ public class ExposicionPerros {
         }
 
     }
+  
+    
+    public static void ordenarPerrosPor(String eleccion, ServletContext context) throws IOException {
+
+    switch (eleccion) {
+        case "puntos":
+            // Define un comparador para ordenar por puntos
+            Comparator<Perro> comparador = Comparator.comparingInt(Perro::getPuntos);
+
+            // Ordena la lista de perros usando el comparador
+            Collections.sort(darPerros, comparador);
+            eliminarContenidoArchivo(context);
+            guardarPerro(darPerros, context);
+            break;
+
+        case "nombre":
+            // Define un comparador para ordenar alfabéticamente por nombre
+            Comparator<Perro> comparadorNombre = Comparator.comparing(Perro::getNombre);
+
+            // Ordena la lista de perros usando el comparador
+            Collections.sort(darPerros, comparadorNombre);
+            eliminarContenidoArchivo(context);
+            guardarPerro(darPerros, context);
+            break;
+
+        case "raza":
+            // Define un comparador para ordenar alfabéticamente por raza
+            Comparator<Perro> comparadorraza = Comparator.comparing(Perro::getRaza);
+
+            // Ordena la lista de perros usando el comparador
+            Collections.sort(darPerros, comparadorraza);
+            eliminarContenidoArchivo(context);
+            guardarPerro(darPerros, context);
+            break;
+    }
+}
+
+    
     
 }
 

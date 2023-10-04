@@ -74,21 +74,18 @@
                   </button>
                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                      <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                      </li>
-                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                          ordenar por
+                      
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
+                          Ordenamientos
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                          <li><a class="dropdown-item" href="#">Edad</a></li>
-                          <li><a class="dropdown-item" href="#">puntaje</a></li>
+                        <ul class="dropdown-menu">
+                          <li><a class="dropdown-item" id="ordenamiento-nombre" data-value="nombre"   href="#">Por nombre</a></li>
+                          <li><a class="dropdown-item" id="ordenamiento-puntos" data-value="puntos"  href="#">Por puntos</a></li>
+                          <li><a class="dropdown-item" id="ordenamiento-raza" data-value="raza"  href="#">Por raza </a></li>
+
                         </ul>
-                      </li>
+                    </li>
                     </ul>
                     <form class="d-flex" action="SvPerro" method="GET">
                         <input class="form-control me-2" type="search" name="nombre" placeholder="Search" aria-label="Search">
@@ -137,7 +134,7 @@
                                 <i class="fas fa-pencil-alt"></i>
                             </a>
                             
-                            <a href="#" class="btn btn-danger" data-elimniar="<%= perro.getNombre()%>" id="eliminar"><i class="fas fa-trash-alt"></i>  </a> <!-- Icono para editar -->
+                            <a href="#" class="btn btn-danger eliminar" data-elimniar="<%= perro.getNombre()%>"><i class="fas fa-trash-alt"></i>  </a> <!-- Icono para borrar -->
                         </td>
 
                     </tr>
@@ -253,25 +250,7 @@
     });
 
 </script>
-<script>
-    $('#eliminar').click(function(){
-                
-                var nombre = $(this).data('elimniar');// Obtén el nombre del perro
 
-                // Realiza una solicitud AJAX al servlet para obtener los detalles del perro por su nombre
-                $.ajax({
-                    url: 'SvEliminar?nombre=' + nombre,
-                    method: 'POST',
-                    success: function () {
-
-                    window.location.href = 'index.jsp';
-                    },
-                    error: function () {
-
-                         }
-                });
-            });
-</script>
 
 <script>
     $('#editarModal').on('show.bs.modal', function (event) {
@@ -294,6 +273,71 @@
 
         $('#imagen-perro-editar').attr('src', './imagenes/' + imagen);
     });
+    
+    $('.eliminar').click(function() {
+    var nombre=$(this).data('elimniar');
+    $.ajax({
+        url: 'SvEliminar?nombre=' + nombre,
+        method: 'POST',
+        success: function () {
+                                                    
+        window.location.href = 'index.jsp';
+        },
+        error: function () {
+            
+             }
+        });
+    });
+    
+    
+     $('#ordenamiento-nombre').click(function() {
+            var campo = $(this).data('value');
+            console.log("holi, gracias por su seleccion: "+campo);
+            $.ajax({
+                url: 'SvEliminar?value=' + campo,
+                method: 'GET',
+                success: function () {
+
+                window.location.href = 'index.jsp';
+                },
+                error: function () {
+
+                     }
+                });
+          });
+         
+        $('#ordenamiento-puntos').click(function() {
+            var campo = $(this).data('value');
+            console.log("holi, gracias por su seleccion: "+campo);
+             $.ajax({
+                url: 'SvEliminar?value=' + campo,
+                method: 'GET',
+                success: function () {
+
+                window.location.href = 'index.jsp';
+                },
+                error: function () {
+
+                     }
+                });
+          });
+          
+          $('#ordenamiento-raza').click(function() {
+            var campo = $(this).data('value');
+            console.log("holi, gracias por su seleccion: "+campo);
+             $.ajax({
+                url: 'SvEliminar?value=' + campo,
+                method: 'GET',
+                success: function () {
+
+                window.location.href = 'index.jsp';
+                },
+                error: function () {
+
+                     }
+                });
+          });
+          
 </script>
 
 <%@include file= "templates/fooder.jsp" %>

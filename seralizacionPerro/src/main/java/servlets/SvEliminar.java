@@ -29,6 +29,17 @@ public class SvEliminar extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        
+        ServletContext servletContext = getServletContext();
+        
+        String nombre = request.getParameter("value");
+        System.out.println("desde elimnar"+nombre);
+        ExposicionPerros.ordenarPerrosPor(nombre, servletContext);// Implementa la lógica para buscar el perro en tu lista de perros
+         
+        // Agregar la lista de perros al objeto de solicitud
+        request.setAttribute("misPerros", ExposicionPerros.darPerros);
+        
+        
     }
 
     @Override
