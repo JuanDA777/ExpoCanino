@@ -18,7 +18,7 @@
                 <h3>Insertar nuevo perro</h3>
                 <!-- Enctype sirve para subir archivos-->
                 <form action="SvPerro" method="POST" enctype="multipart/form-data" > 
-                    <!-- Input para el nombre-->
+                    <!-- Input nombre-->
                     <div class="input-group mb-3">
                         <label class="input-group-text" for="nombre">Nombre:</label>
                         <input type="text" name ="nombre" class="form-control">
